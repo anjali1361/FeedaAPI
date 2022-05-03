@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ServiceBuilder {
 
-    private const val URL="https://shopapp111.herokuapp.com/api/"
+    private const val URL=""
 
     //create logger
     private val logger =HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
