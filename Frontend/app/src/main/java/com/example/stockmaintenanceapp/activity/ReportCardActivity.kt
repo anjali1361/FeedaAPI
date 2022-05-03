@@ -2,6 +2,7 @@ package com.example.stockmaintenanceapp.activity
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -11,6 +12,7 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
@@ -47,10 +49,12 @@ class ReportCardActivity : AppCompatActivity() {
     lateinit var balanceSheetList: ArrayList<BalanceSheetModel>
     lateinit var balanceSheet: BalanceSheetModel
     lateinit var commentList:ArrayList<Comment>
+//    lateinit var commentListFiltered:ArrayList<Comment>
     var date:String?=null
     var id:String?=null
 
     var outputFormat: DateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.US)
+    @RequiresApi(Build.VERSION_CODES.N)
     var inputFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX", Locale.US)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,14 +70,11 @@ class ReportCardActivity : AppCompatActivity() {
 
         val bundle: Bundle? = intent.extras
         if (bundle?.containsKey(ARG_ITEM_ID)!!) {
-
             balanceSheet = intent.getParcelableExtra(ARG_ITEM_ID)!!
             val inputDate=inputFormat.parse(balanceSheet.createdAt!!)
             date=outputFormat.format(inputDate!!)
             Log.d("Balance", date.toString())
-
             if (date != null) {
-
                 Log.d("Balance", date!!)
             } else {
                 Log.d("Balance", "Customer ID is NUll")
@@ -99,12 +100,17 @@ class ReportCardActivity : AppCompatActivity() {
                     val dateFormatted=outputFormat.format(dateTodayFromList!!)
                     if(date==dateFormatted){
                         commentList= balanceSheetList.get(i).Comments!!
+                        for (comment in commentList){
+                            if(comment==null){
+                                commentList.remove(comment)
+                            }
+                        }
                         id=balanceSheetList.get(i)._id
                         Log.d("ReportCard",commentList.toString())
                         break
                     }
                 }
-
+                Log.d("comment",commentList.toString())
                 reportCardAdapter =
                     ReportCardAdapter(this@ReportCardActivity, commentList)
                 recyclerReportCard.adapter = reportCardAdapter

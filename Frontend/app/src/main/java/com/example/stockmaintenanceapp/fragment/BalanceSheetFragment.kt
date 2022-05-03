@@ -135,28 +135,22 @@ class BalanceSheetFragment : Fragment() {
             val comment = Comment()
 
             if (!comm.equals("")) {
-
                 comment.comment = comm
                 commentList.add(comment)
-
-            } else {
-                break
             }
-
         }
 
-        if (!finalDrawerMoney.equals("")) {
+        Log.d("abc",commentList.toString())
+
+        if (!finalDrawerMoney.equals("") && commentList.size!=0) {
             balanceSheetModel.Comments = commentList
 
             addOrUpdateByValidating(dateToday, finalDrawerMoney.toInt())
 //            addComment(balanceSheetModel)
 //            updateComment()
         }
-
-
-
-        if (commentList.size == 0) {
-            Toast.makeText(mContext, "List is null or Product Not Available", Toast.LENGTH_SHORT)
+        else{
+            Toast.makeText(mContext, "No Comments Added", Toast.LENGTH_SHORT)
                 .show()
         }
 
@@ -198,6 +192,7 @@ class BalanceSheetFragment : Fragment() {
             if (formattedDate == dateToday) {
                 val balanceSheetModel = balanceSheetList.get(i)
                 balanceSheetModel.FinalDrawerMoney = finalDrawerMoney
+                balanceSheetModel.Comments=newComment.Comments
                 id = balanceSheetModel._id.toString()
             }
             val productService = ServiceBuilder.buildService(BalanceSheetService::class.java)

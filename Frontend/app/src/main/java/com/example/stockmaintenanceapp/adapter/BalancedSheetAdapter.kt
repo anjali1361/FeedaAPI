@@ -40,10 +40,10 @@ class BalancedSheetAdapter(private val context: Context,private var itemList: Ar
         holder.txtFinalMoney.text = itemList[position].FinalDrawerMoney.toString()
 
         holder.itemView.setOnClickListener { v ->
-            val context = v.context
-            val intent = Intent(context, ReportCardActivity::class.java)
-            intent.putExtra(ReportCardActivity.ARG_ITEM_ID,holder.history)
-            context.startActivity(intent)
+               val context = v.context
+               val intent = Intent(context, ReportCardActivity::class.java)
+               intent.putExtra(ReportCardActivity.ARG_ITEM_ID,holder.history)
+               context.startActivity(intent)
         }
     }
 
